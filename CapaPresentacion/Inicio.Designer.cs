@@ -59,7 +59,7 @@
             this.Menuacercade});
             this.menu.Location = new System.Drawing.Point(0, 60);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(1000, 57);
+            this.menu.Size = new System.Drawing.Size(1000, 59);
             this.menu.TabIndex = 0;
             this.menu.Text = "menuStrip1";
             // 
@@ -70,7 +70,7 @@
             this.Menuusuario.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menuusuario.IconSize = 50;
             this.Menuusuario.Name = "Menuusuario";
-            this.Menuusuario.Size = new System.Drawing.Size(92, 53);
+            this.Menuusuario.Size = new System.Drawing.Size(92, 55);
             this.Menuusuario.Text = "Usuiario";
             this.Menuusuario.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -81,7 +81,7 @@
             this.Menumantenedor.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menumantenedor.IconSize = 50;
             this.Menumantenedor.Name = "Menumantenedor";
-            this.Menumantenedor.Size = new System.Drawing.Size(125, 53);
+            this.Menumantenedor.Size = new System.Drawing.Size(125, 55);
             this.Menumantenedor.Text = "Mantenedor";
             this.Menumantenedor.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -92,7 +92,7 @@
             this.Menuventas.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menuventas.IconSize = 50;
             this.Menuventas.Name = "Menuventas";
-            this.Menuventas.Size = new System.Drawing.Size(80, 53);
+            this.Menuventas.Size = new System.Drawing.Size(80, 55);
             this.Menuventas.Text = "Ventas";
             this.Menuventas.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -103,7 +103,7 @@
             this.Menucompras.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menucompras.IconSize = 50;
             this.Menucompras.Name = "Menucompras";
-            this.Menucompras.Size = new System.Drawing.Size(100, 53);
+            this.Menucompras.Size = new System.Drawing.Size(100, 55);
             this.Menucompras.Text = "Compras";
             this.Menucompras.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -114,7 +114,7 @@
             this.Menuclientes.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menuclientes.IconSize = 50;
             this.Menuclientes.Name = "Menuclientes";
-            this.Menuclientes.Size = new System.Drawing.Size(89, 53);
+            this.Menuclientes.Size = new System.Drawing.Size(89, 55);
             this.Menuclientes.Text = "Clientes";
             this.Menuclientes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -125,7 +125,7 @@
             this.Menuproveedor.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menuproveedor.IconSize = 50;
             this.Menuproveedor.Name = "Menuproveedor";
-            this.Menuproveedor.Size = new System.Drawing.Size(110, 53);
+            this.Menuproveedor.Size = new System.Drawing.Size(110, 55);
             this.Menuproveedor.Text = "Proveedor";
             this.Menuproveedor.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -136,7 +136,7 @@
             this.Menureporte.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menureporte.IconSize = 50;
             this.Menureporte.Name = "Menureporte";
-            this.Menureporte.Size = new System.Drawing.Size(90, 53);
+            this.Menureporte.Size = new System.Drawing.Size(90, 55);
             this.Menureporte.Text = "Reporte";
             this.Menureporte.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -147,7 +147,7 @@
             this.Menuacercade.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menuacercade.IconSize = 50;
             this.Menuacercade.Name = "Menuacercade";
-            this.Menuacercade.Size = new System.Drawing.Size(110, 53);
+            this.Menuacercade.Size = new System.Drawing.Size(110, 55);
             this.Menuacercade.Text = "Acerca de ";
             this.Menuacercade.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -179,9 +179,9 @@
             // Contenedor
             // 
             this.Contenedor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Contenedor.Location = new System.Drawing.Point(0, 117);
+            this.Contenedor.Location = new System.Drawing.Point(0, 119);
             this.Contenedor.Name = "Contenedor";
-            this.Contenedor.Size = new System.Drawing.Size(1000, 337);
+            this.Contenedor.Size = new System.Drawing.Size(1000, 335);
             this.Contenedor.TabIndex = 3;
             // 
             // Inicio
