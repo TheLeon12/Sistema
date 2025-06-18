@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using System.Data;
 using System.Data.SqlClient;
-
 using CapaEntidades;
 
 namespace CapaDato
@@ -44,9 +43,9 @@ namespace CapaDato
                         }
                     }
 
-                } catch (Exception ex)
+                } catch (Exception )
                 {
-                    throw new Exception(ex.Message);
+                    lista = new List<Usuario>();
                 }
             }
             return lista;
