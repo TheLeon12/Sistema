@@ -42,6 +42,8 @@
             this.Contenedor = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.Lblusuario = new System.Windows.Forms.Label();
+            this.iconMenuItem1 = new FontAwesome.Sharp.IconMenuItem();
+            this.iconMenuItem2 = new FontAwesome.Sharp.IconMenuItem();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,7 +63,7 @@
             this.Menuacercade});
             this.menu.Location = new System.Drawing.Point(0, 60);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(1000, 57);
+            this.menu.Size = new System.Drawing.Size(1000, 59);
             this.menu.TabIndex = 0;
             this.menu.Text = "menuStrip1";
             // 
@@ -72,18 +74,22 @@
             this.Menuusuario.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menuusuario.IconSize = 50;
             this.Menuusuario.Name = "Menuusuario";
-            this.Menuusuario.Size = new System.Drawing.Size(92, 53);
+            this.Menuusuario.Size = new System.Drawing.Size(92, 55);
             this.Menuusuario.Text = "Usuiario";
             this.Menuusuario.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.Menuusuario.Click += new System.EventHandler(this.Menuusuario_Click);
             // 
             // Menumantenedor
             // 
+            this.Menumantenedor.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.iconMenuItem1,
+            this.iconMenuItem2});
             this.Menumantenedor.IconChar = FontAwesome.Sharp.IconChar.ScrewdriverWrench;
             this.Menumantenedor.IconColor = System.Drawing.Color.Black;
             this.Menumantenedor.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Menumantenedor.IconSize = 50;
             this.Menumantenedor.Name = "Menumantenedor";
-            this.Menumantenedor.Size = new System.Drawing.Size(125, 53);
+            this.Menumantenedor.Size = new System.Drawing.Size(125, 55);
             this.Menumantenedor.Text = "Mantenedor";
             this.Menumantenedor.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -181,9 +187,9 @@
             // Contenedor
             // 
             this.Contenedor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Contenedor.Location = new System.Drawing.Point(0, 117);
+            this.Contenedor.Location = new System.Drawing.Point(0, 119);
             this.Contenedor.Name = "Contenedor";
-            this.Contenedor.Size = new System.Drawing.Size(1000, 337);
+            this.Contenedor.Size = new System.Drawing.Size(1000, 335);
             this.Contenedor.TabIndex = 3;
             // 
             // label2
@@ -209,6 +215,24 @@
             this.Lblusuario.Size = new System.Drawing.Size(102, 25);
             this.Lblusuario.TabIndex = 0;
             this.Lblusuario.Text = "Lblusuario";
+            // 
+            // iconMenuItem1
+            // 
+            this.iconMenuItem1.IconChar = FontAwesome.Sharp.IconChar.None;
+            this.iconMenuItem1.IconColor = System.Drawing.Color.Black;
+            this.iconMenuItem1.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconMenuItem1.Name = "iconMenuItem1";
+            this.iconMenuItem1.Size = new System.Drawing.Size(270, 34);
+            this.iconMenuItem1.Text = "Categoria";
+            // 
+            // iconMenuItem2
+            // 
+            this.iconMenuItem2.IconChar = FontAwesome.Sharp.IconChar.None;
+            this.iconMenuItem2.IconColor = System.Drawing.Color.Black;
+            this.iconMenuItem2.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconMenuItem2.Name = "iconMenuItem2";
+            this.iconMenuItem2.Size = new System.Drawing.Size(270, 34);
+            this.iconMenuItem2.Text = "Producto";
             // 
             // Inicio
             // 
@@ -249,6 +273,8 @@
         private System.Windows.Forms.Panel Contenedor;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label Lblusuario;
+        private FontAwesome.Sharp.IconMenuItem iconMenuItem1;
+        private FontAwesome.Sharp.IconMenuItem iconMenuItem2;
     }
 }
 
