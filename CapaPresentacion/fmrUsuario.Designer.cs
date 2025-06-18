@@ -37,9 +37,10 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(224, 200);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(324, 25);
+            this.label1.Size = new System.Drawing.Size(306, 25);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Hola, Soy el formulario de Categoria";
+            this.label1.Text = "Hola, Soy el formulario de Usuario";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // fmrUsuario
             // 

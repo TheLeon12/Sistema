@@ -40,6 +40,23 @@ namespace CapaPresentacion
             }
             menu.BackColor = Color.Silver;
             MenuActual = menu;
+
+            if (FormularioActivo != null)
+            {
+                FormularioActivo.Close();
+            }
+
+            FormularioActivo = formulario;
+            FormularioActivo.TopLevel = false;
+            FormularioActivo.FormBorderStyle = FormBorderStyle.None;
+            FormularioActivo.Dock = DockStyle.Fill;
+            FormularioActivo.BackColor = Color.SteelBlue;
+
+            Contenedor.Controls.Add(formulario);
+            formulario.Show();
+
+
+
         }
 
         private void Menuusuario_Click(object sender, EventArgs e)
