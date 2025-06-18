@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Data;
+using System.Data.SqlClient;
+
 namespace CapaDato
 {
-    public class Class1
+    public class CD_Usuario
     {
     }
 }
