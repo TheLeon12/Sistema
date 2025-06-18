@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E688B95F-71C6-44C9-BD97-A640E11A1095}</ProjectGuid>
+    <ProjectGuid>{D2E88486-BE24-48B7-A4AD-EBE862FB8E18}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>CapaPresentacion</RootNamespace>
-    <AssemblyName>CapaPresentacion</AssemblyName>
+    <RootNamespace>CapaEntidad</RootNamespace>
+    <AssemblyName>CapaEntidad</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -54,9 +54,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
