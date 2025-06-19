@@ -24,7 +24,7 @@ namespace CapaDato
                     StringBuilder query = new StringBuilder();
                     query.AppendLine("select p.IdRol,p.NombreMenu from PERMISO p");
                     query.AppendLine("inner join ROL r on r.IdRol = p.IdRol");
-                    query.AppendLine("inner join USUARIO u on u.IdRol\t= r.IdRol");
+                    query.AppendLine("inner join USUARIO u on u.IdRol = r.IdRol");
                     query.AppendLine("where u.IdUsuario = @idusuario");
 
 
@@ -40,8 +40,8 @@ namespace CapaDato
                         {
                             lista.Add(new Permiso()
                             {
-                                oRol = new Rol() { Idol = Convert.ToInt32(dr["IdUsuario"])} ,
-                               NombreMenu = dr["NombreMenu"].ToString(),
+                                oRol = new Rol() { IdRol = Convert.ToInt32(dr["IdRol"])} ,
+                               NombreMenu = dr["NombreMenu"].ToString()
                               
 
                             });

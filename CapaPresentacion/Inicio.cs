@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using CapaEntidades;
+using CapaNegocio;
 using FontAwesome.Sharp;
 
 namespace CapaPresentacion
@@ -29,6 +30,20 @@ namespace CapaPresentacion
 
         private void Inicio_Load(object sender, EventArgs e)
         {
+            //Configuracion para que se muestren los botones mediante el rol y los permisos del usuario actual
+            List<Permiso> ListaPermisos = new CN_Permiso().Listar(usuarioActual.IdUsuario);
+
+            foreach (IconMenuItem iconMenu in menu.Items)
+            {
+                bool encontrado = ListaPermisos.Any(m => m.NombreMenu == iconMenu.Name);
+
+                if (encontrado == false)
+                {
+                    iconMenu.Visible = false;
+                }
+            
+            }
+
             Lblusuario.Text = usuarioActual.NombreCompleto;
         }
 

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using CapaDato;
 using CapaEntidades;
-using CapaNegocio;
 
 
 namespace CapaNegocio
@@ -15,9 +14,9 @@ namespace CapaNegocio
     {
         private CD_Permisos objcd_permisos = new CD_Permisos();
 
-        public List<Permiso> Listar(int idusuario)
+        public List<Permiso> Listar(int IdUsuario)
         {
-            return objcd_permisos.Listar(idusuario);
+            return objcd_permisos.Listar(IdUsuario);
         }
     }
 }
