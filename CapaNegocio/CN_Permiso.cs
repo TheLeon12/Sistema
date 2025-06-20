@@ -10,6 +10,7 @@ using CapaEntidades;
 
 namespace CapaNegocio
 {
+    // Clase de negocio para manejar los permisos de los usuarios
     public class CN_Permiso
     {
         private CD_Permisos objcd_permisos = new CD_Permisos();

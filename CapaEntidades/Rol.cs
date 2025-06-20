@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CapaEntidades
 {
+    // Modelo de la entidad Rol
     public class Rol
     {
         public int IdRol { get; set; }

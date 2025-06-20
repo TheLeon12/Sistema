@@ -12,6 +12,7 @@ namespace CapaDato
 {
     public class CD_Usuario
     {
+        // Método para registrar un nuevo usuario
         public List<Usuario> Listar()
         {
             List<Usuario> lista = new List<Usuario>();

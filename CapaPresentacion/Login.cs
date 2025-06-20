@@ -27,14 +27,16 @@ namespace CapaPresentacion
 
         private void Btncancelar_Click(object sender, EventArgs e)
         {
+            // Programacion para cerrar el formulario de login
             this.Close();
         }
 
         private void Btningresar_Click(object sender, EventArgs e)
         {
+            // Validacion de los campos y el rol asignado al usuario
             List<Usuario> TEST = new CN_Usuario().Listar();
             Usuario oUsuario = new CN_Usuario().Listar().Where(u => u.Documento == Textdocumento.Text && u.Clave == Textclave.Text).FirstOrDefault();
-
+            // Codigo del boton de inico para que muestre el siguiente formulario
             if (oUsuario != null)
             {
                 Inicio form = new Inicio(oUsuario);
@@ -51,6 +53,7 @@ namespace CapaPresentacion
         }
         private void fmr_closing(object sender, FormClosedEventArgs e)
         {
+            // Codigo para limpiar los campos de texto del formulario de login
             Textdocumento.Text = "";
                 Textclave.Text = "";
 

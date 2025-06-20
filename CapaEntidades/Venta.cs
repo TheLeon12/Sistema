@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CapaEntidades
 {
+    // Modelo de la entidad Venta 
     public class Venta
     {
         public int IdVenta { get; set; }

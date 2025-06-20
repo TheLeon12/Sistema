@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace CapaEntidades
 {
-   public class Compra
+    // Modelo de la entidad Compra
+    public class Compra
     {
         public int IdCompra { get; set; }
         public Usuario oUsuario { get; set; }

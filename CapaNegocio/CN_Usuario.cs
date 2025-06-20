@@ -10,6 +10,7 @@ using CapaNegocio;
 
 namespace CapaNegocio
 {
+    // Clase de negocio para manejar los usuarios
     public class CN_Usuario
     {
         private CD_Usuario objcd_usuario = new CD_Usuario();

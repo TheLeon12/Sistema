@@ -13,6 +13,7 @@ namespace CapaDato
 {
     public class CD_Permisos
     {
+        // Método para listar los permisos de un usuario
         public List<Permiso> Listar( int idusuario)
         {
             List<Permiso> lista = new List<Permiso>();
