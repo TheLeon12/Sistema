@@ -21,5 +21,25 @@ namespace CapaPresentacion
         {
 
         }
+
+        private void fmrUsuario_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnguargar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btneditar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btneliminar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
