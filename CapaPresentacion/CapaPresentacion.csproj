@@ -127,6 +127,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilidades\ObcionCombo.cs" />
     <EmbeddedResource Include="fmrUsuario.resx">
       <DependentUpon>fmrUsuario.cs</DependentUpon>
     </EmbeddedResource>
