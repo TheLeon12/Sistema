@@ -109,7 +109,7 @@ namespace CapaDato
                 oconexion.Open();
 
                 cmd.ExecuteNonQuery();
-                respuesta = Convert.ToBoolean(cmd.Parameters["IdUsuarioResultado"].Value);
+                respuesta = Convert.ToBoolean(cmd.Parameters["Respuesta"].Value);
                 Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
             }
 
@@ -141,7 +141,7 @@ namespace CapaDato
                 oconexion.Open();
 
                 cmd.ExecuteNonQuery();
-                respuesta = Convert.ToBoolean(cmd.Parameters["IdUsuarioResultado"].Value);
+                respuesta = Convert.ToBoolean(cmd.Parameters["Respuesta"].Value);
                 Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
             }
 

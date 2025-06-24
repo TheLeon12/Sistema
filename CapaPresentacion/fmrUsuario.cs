@@ -86,32 +86,60 @@ namespace CapaPresentacion
                 Estado = Convert.ToInt32(((ObcionCombo)cboestado.SelectedItem).Valor) == 1 ? true : false
             };
 
-            int idusuariogenerado = new CN_Usuario().Registrar(objusuario, out Mensaje);
-
-            if(idusuariogenerado != 0)
+            if (objusuario.IdUsuario == 0)
             {
-                // Configuracion para que se manden y se muestre el texto en el datagridview
-                dgvdata.Rows.Add(new object[] { "",idusuariogenerado, txtdocumento.Text, txtnombrecompleto.Text, txtcorreo.Text, txtclave.Text,
-                ((ObcionCombo)cborol.SelectedItem).Valor.ToString(),
-                ((ObcionCombo)cborol.SelectedItem).Texto.ToString(),
-                ((ObcionCombo)cboestado.SelectedItem).Valor.ToString(),
-                ((ObcionCombo)cboestado.SelectedItem).Texto.ToString()
-                });
+                //Configuracion para el registro de un usuario 
+                int idusuariogenerado = new CN_Usuario().Registrar(objusuario, out Mensaje);
 
-                Limpiar(); // Llamar al método para limpiar los campos después de agregar un nuevo usuario
-            } else
-            {
-                MessageBox.Show(Mensaje);
+                if (idusuariogenerado != 0)
+                {
+                    // Configuracion para que se manden y se muestre el texto en el datagridview
+                    dgvdata.Rows.Add(new object[] { "",idusuariogenerado, txtdocumento.Text, txtnombrecompleto.Text, txtcorreo.Text, txtclave.Text,
+                    ((ObcionCombo)cborol.SelectedItem).Valor.ToString(),
+                    ((ObcionCombo)cborol.SelectedItem).Texto.ToString(),
+                    ((ObcionCombo)cboestado.SelectedItem).Valor.ToString(),
+                    ((ObcionCombo)cboestado.SelectedItem).Texto.ToString()
+                    });
+
+                    Limpiar(); // Llamar al método para limpiar los campos después de agregar un nuevo usuario
+                }
+                else
+                {
+                    MessageBox.Show(Mensaje);
+                }
+
             }
-            
+            else 
+            { 
+                // Configuracion para editar un usuario
+                bool resultado = new CN_Usuario().Editar(objusuario, out Mensaje);
+                if (resultado) 
+                {
+                    DataGridViewRow row = dgvdata.Rows[Convert.ToInt32(txtindice.Text)];
+                    row.Cells["Id"].Value = txtid.Text;
+                    row.Cells["Documento"].Value = txtdocumento.Text;
+                    row.Cells["NombreCompleto"].Value = txtnombrecompleto.Text;
+                    row.Cells["Correo"].Value = txtcorreo.Text;
+                    row.Cells["Clave"].Value = txtclave.Text;
+                    row.Cells["IdRol"].Value = ((ObcionCombo)cborol.SelectedItem).Valor.ToString();
+                    row.Cells["Rol"].Value = ((ObcionCombo)cborol.SelectedItem).Texto.ToString();
+                    row.Cells["EstadoValor"].Value = ((ObcionCombo)cboestado.SelectedItem).Valor.ToString();
+                    row.Cells["Estado"].Value = ((ObcionCombo)cboestado.SelectedItem).Texto.ToString();
 
-            
+                    Limpiar(); // Llamar al método para limpiar los campos después de agregar un nuevo usuario
+
+                }
+                else
+                {
+                    MessageBox.Show(Mensaje);
+                }
+            }            
         }
 
         private void Limpiar() 
         {
             // Limpiar los campos de texto y restablecer los combobox
-            textBox1.Text = "-1";
+            txtindice.Text = "-1";
             txtid.Text = "0";
             txtdocumento.Text = "";
             txtnombrecompleto.Text = "";
@@ -121,16 +149,39 @@ namespace CapaPresentacion
             cborol.SelectedIndex = 0;
             cboestado.SelectedIndex = 0;
 
+            txtdocumento.Select();
+
         }
 
         private void btneditar_Click(object sender, EventArgs e)
         {
-
+            Limpiar();
         }
 
         private void btneliminar_Click(object sender, EventArgs e)
         {
+            // Configuracio para eliminar un usuario
+            if (Convert.ToInt32(txtindice.Text) != 0)
+            {
+                if (MessageBox.Show("¿Desas eliminar el usuario?", "Mensaje", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    string Mensaje = string.Empty;
+                    Usuario objusuario = new Usuario()
+                    {
+                        IdUsuario = Convert.ToInt32(txtid.Text)
+                    };
+                    bool respuesta = new CN_Usuario().Eliminar(objusuario, out Mensaje);
 
+                    if (respuesta) 
+                    {
+                        dgvdata.Rows.RemoveAt(Convert.ToInt32(txtindice.Text));
+                    }
+                    else
+                    {
+                        MessageBox.Show(Mensaje, "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+            }
         }
 
         private void dgvdata_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -141,7 +192,7 @@ namespace CapaPresentacion
 
             if (e.ColumnIndex == 0)
             {
-                textBox1.Text = e.RowIndex.ToString();
+                txtindice.Text = e.RowIndex.ToString();
 
                 e.Paint(e.CellBounds, DataGridViewPaintParts.All);
 
@@ -193,6 +244,11 @@ namespace CapaPresentacion
                     }
                 }
             }
+        }
+
+        private void btnbuscar_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
