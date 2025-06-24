@@ -72,20 +72,46 @@ namespace CapaPresentacion
 
         private void btnguargar_Click(object sender, EventArgs e)
         {
-            // Configuracion para que se manden y se muestre el texto en el datagridview
-            dgvdata.Rows.Add(new object[] { "",txtid.Text, txtdocumento.Text, txtnombrecompleto.Text, txtcorreo.Text, txtclave.Text,
-            ((ObcionCombo)cborol.SelectedItem).Valor.ToString(),
-            ((ObcionCombo)cborol.SelectedItem).Texto.ToString(),
-             ((ObcionCombo)cboestado.SelectedItem).Valor.ToString(),
-            ((ObcionCombo)cboestado.SelectedItem).Texto.ToString()
-            });
 
-            Limpiar(); // Llamar al método para limpiar los campos después de agregar un nuevo usuario
+           string Mensaje = string.Empty;
+
+            Usuario objusuario = new Usuario()
+            {
+                IdUsuario = Convert.ToInt32(txtid.Text),
+                Documento = txtdocumento.Text,
+                NombreCompleto = txtnombrecompleto.Text,
+                Correo = txtcorreo.Text,
+                Clave = txtclave.Text,
+                oRol = new Rol() { IdRol = Convert.ToInt32(((ObcionCombo)cborol.SelectedItem).Valor) },
+                Estado = Convert.ToInt32(((ObcionCombo)cboestado.SelectedItem).Valor) == 1 ? true : false
+            };
+
+            int idusuariogenerado = new CN_Usuario().Registrar(objusuario, out Mensaje);
+
+            if(idusuariogenerado != 0)
+            {
+                // Configuracion para que se manden y se muestre el texto en el datagridview
+                dgvdata.Rows.Add(new object[] { "",idusuariogenerado, txtdocumento.Text, txtnombrecompleto.Text, txtcorreo.Text, txtclave.Text,
+                ((ObcionCombo)cborol.SelectedItem).Valor.ToString(),
+                ((ObcionCombo)cborol.SelectedItem).Texto.ToString(),
+                ((ObcionCombo)cboestado.SelectedItem).Valor.ToString(),
+                ((ObcionCombo)cboestado.SelectedItem).Texto.ToString()
+                });
+
+                Limpiar(); // Llamar al método para limpiar los campos después de agregar un nuevo usuario
+            } else
+            {
+                MessageBox.Show(Mensaje);
+            }
+            
+
+            
         }
 
         private void Limpiar() 
         {
             // Limpiar los campos de texto y restablecer los combobox
+            textBox1.Text = "-1";
             txtid.Text = "0";
             txtdocumento.Text = "";
             txtnombrecompleto.Text = "";
@@ -105,6 +131,68 @@ namespace CapaPresentacion
         private void btneliminar_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void dgvdata_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            // Este evento se usa para personalizar la celda de selección
+            if (e.RowIndex < 0)
+                return;
+
+            if (e.ColumnIndex == 0)
+            {
+                textBox1.Text = e.RowIndex.ToString();
+
+                e.Paint(e.CellBounds, DataGridViewPaintParts.All);
+
+                // Ajustar la imagen al tamaño de la celda
+                e.Graphics.DrawImage(
+                    Properties.Resources.comprobado,
+                    new Rectangle(
+                        e.CellBounds.Left,
+                        e.CellBounds.Top,
+                        e.CellBounds.Width,
+                        e.CellBounds.Height
+                    )
+                );
+                e.Handled = true;
+            }
+        }
+
+        private void dgvdata_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvdata.Columns[e.ColumnIndex].Name == "btnselecionar") {
+                int indice = e.RowIndex;
+
+                if (indice >= 0)
+                {
+                    txtid.Text = dgvdata.Rows[indice].Cells["Id"].Value.ToString();
+                    txtdocumento.Text = dgvdata.Rows[indice].Cells["Documento"].Value.ToString();
+                    txtnombrecompleto.Text = dgvdata.Rows[indice].Cells["NombreCompleto"].Value.ToString();
+                    txtcorreo.Text = dgvdata.Rows[indice].Cells["Correo"].Value.ToString();
+                    txtclave.Text = dgvdata.Rows[indice].Cells["Clave"].Value.ToString();
+                    txtconfirmarclave.Text = dgvdata.Rows[indice].Cells["Clave"].Value.ToString();
+
+                    foreach (ObcionCombo oc in cborol.Items) 
+                    { 
+                        if(Convert.ToInt32(oc.Valor) == Convert.ToInt32(dgvdata.Rows[indice].Cells["IdRol"].Value)){
+                            int indice_combo = cborol.Items.IndexOf(oc);
+                            cborol.SelectedIndex = indice_combo;
+                            break;
+                        }
+                    }
+
+                    foreach (ObcionCombo oc in cboestado.Items)
+                    {
+                        if (Convert.ToInt32(oc.Valor) == Convert.ToInt32(dgvdata.Rows[indice].Cells["EstadoValor"].Value))
+                        {
+                            int indice_combo = cboestado.Items.IndexOf(oc);
+                            cboestado.SelectedIndex = indice_combo;
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 }
