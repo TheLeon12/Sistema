@@ -148,7 +148,7 @@ namespace CapaPresentacion
             txtconfirmarclave.Text = "";
             cborol.SelectedIndex = 0;
             cboestado.SelectedIndex = 0;
-
+            txtindice.Text = "-1";
             txtdocumento.Select();
 
         }
