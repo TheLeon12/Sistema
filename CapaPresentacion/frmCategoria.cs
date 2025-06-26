@@ -255,5 +255,53 @@ namespace CapaPresentacion
                 row.Visible = true;
             }
         }
+
+        private void btnexportar_Click(object sender, EventArgs e)
+        {
+            if (dgvdata.Rows.Count < 1)
+            {
+                MessageBox.Show("No hay datos para exportar", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            // Índices y nombres de las columnas a exportar (ajusta si tu estructura cambia)
+            int[] indices = { 1, 2, 4 }; // IdCategoria, Descripcion, Estado
+            string[] nombresColumnas = { "ID", "Descripción", "Estado" };
+
+            DataTable dt = new DataTable();
+            foreach (var nombre in nombresColumnas)
+            {
+                dt.Columns.Add(nombre, typeof(string));
+            }
+
+            foreach (DataGridViewRow row in dgvdata.Rows)
+            {
+                if (row.Visible)
+                {
+                    object[] valores = indices.Select(i => row.Cells[i].Value?.ToString() ?? "").ToArray();
+                    dt.Rows.Add(valores);
+                }
+            }
+
+            SaveFileDialog savefile = new SaveFileDialog();
+            savefile.FileName = string.Format("ReporteCategorias_{0}.xlsx", DateTime.Now.ToString("ddMMyyyyHHmmss"));
+            savefile.Filter = "Excel Files | *.xlsx";
+
+            if (savefile.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    var wb = new ClosedXML.Excel.XLWorkbook();
+                    var hoja = wb.Worksheets.Add(dt, "Categorias");
+                    hoja.ColumnsUsed().AdjustToContents();
+                    wb.SaveAs(savefile.FileName);
+                    MessageBox.Show("Archivo exportado correctamente", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch
+                {
+                    MessageBox.Show("Error al exportar el archivo", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }

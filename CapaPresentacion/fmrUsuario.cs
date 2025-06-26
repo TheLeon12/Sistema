@@ -272,5 +272,53 @@ namespace CapaPresentacion
                 row.Visible = true;
             }
         }
+
+        private void btnexportar_Click(object sender, EventArgs e)
+        {
+            if (dgvdata.Rows.Count < 1)
+            {
+                MessageBox.Show("No hay datos para exportar", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            // Índices y nombres de las columnas a exportar (ajusta según tu estructura)
+            int[] indices = { 2, 3, 4, 5, 7, 8, 9 }; // Documento, Nombre Completo, Correo, Clave, Rol, EstadoValor, Estado
+            string[] nombresColumnas = { "Documento", "Nombre Completo", "Correo", "Clave", "Rol", "Estado Valor", "Estado" };
+
+            DataTable dt = new DataTable();
+            foreach (var nombre in nombresColumnas)
+            {
+                dt.Columns.Add(nombre, typeof(string));
+            }
+
+            foreach (DataGridViewRow row in dgvdata.Rows)
+            {
+                if (row.Visible)
+                {
+                    object[] valores = indices.Select(i => row.Cells[i].Value?.ToString() ?? "").ToArray();
+                    dt.Rows.Add(valores);
+                }
+            }
+
+            SaveFileDialog savefile = new SaveFileDialog();
+            savefile.FileName = string.Format("ReporteUsuarios_{0}.xlsx", DateTime.Now.ToString("ddMMyyyyHHmmss"));
+            savefile.Filter = "Excel Files | *.xlsx";
+
+            if (savefile.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    var wb = new ClosedXML.Excel.XLWorkbook();
+                    var hoja = wb.Worksheets.Add(dt, "Usuarios");
+                    hoja.ColumnsUsed().AdjustToContents();
+                    wb.SaveAs(savefile.FileName);
+                    MessageBox.Show("Archivo exportado correctamente", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch
+                {
+                    MessageBox.Show("Error al exportar el archivo", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }
