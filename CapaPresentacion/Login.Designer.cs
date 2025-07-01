@@ -46,7 +46,7 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Left;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(201, 219);
+            this.label1.Size = new System.Drawing.Size(201, 236);
             this.label1.TabIndex = 0;
             // 
             // label2
@@ -119,7 +119,7 @@
             this.Btningresar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.Btningresar.Location = new System.Drawing.Point(239, 170);
             this.Btningresar.Name = "Btningresar";
-            this.Btningresar.Size = new System.Drawing.Size(108, 37);
+            this.Btningresar.Size = new System.Drawing.Size(115, 37);
             this.Btningresar.TabIndex = 7;
             this.Btningresar.Text = "Ingresar";
             this.Btningresar.UseVisualStyleBackColor = false;
@@ -148,7 +148,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(526, 219);
+            this.ClientSize = new System.Drawing.Size(541, 236);
             this.Controls.Add(this.Btncancelar);
             this.Controls.Add(this.Btningresar);
             this.Controls.Add(this.label4);

@@ -134,5 +134,11 @@ namespace CapaPresentacion
             // Codigo para abrir el formulario de reportes y cambiar el color del menu seleccionado
             AbrirFormulario((IconMenuItem)sender, new frmReportes());
         }
+
+        private void submenunegocio_Click(object sender, EventArgs e)
+        {
+            // Codigo para abrir el formulario de Negocio y cambiar el color del menu seleccionado
+            AbrirFormulario(Menumantenedor, new frmNegocio());
+        }
     }
 }

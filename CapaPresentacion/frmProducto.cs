@@ -131,7 +131,7 @@ namespace CapaPresentacion
                     row.Cells["Id"].Value = txtid.Text;
                     row.Cells["Codigo"].Value = txtcodigo.Text;
                     row.Cells["Nombre"].Value = txtnombre.Text;
-                    row.Cells["Descripcion"].Value = txtdescripcion.Text;
+                    row.Cells["Descripcion1"].Value = txtdescripcion.Text;
                     row.Cells["IdCategoria"].Value = ((ObcionCombo)cbocategoria.SelectedItem).Valor.ToString();
                     row.Cells["Categoria"].Value = ((ObcionCombo)cbocategoria.SelectedItem).Texto.ToString();
                     row.Cells["EstadoValor"].Value = ((ObcionCombo)cboestado.SelectedItem).Valor.ToString();
