@@ -60,10 +60,7 @@ namespace CapaDato
                     conexion.Open();
 
                     StringBuilder query = new StringBuilder();
-                    query.AppendLine("update NEGOCIO set Nombre = @nombre,");
-                    query.AppendLine("RUC = @ruc");
-                    query.AppendLine("Direccion = @direccion");
-                    query.AppendLine("where IdNegocio = 1;");
+                    query.AppendLine("update NEGOCIO set Nombre = @nombre, RUC = @ruc, Direccion = @direccion where IdNegocio = 1;");
 
                     SqlCommand cmd = new SqlCommand(query.ToString(), conexion);
                     cmd.Parameters.AddWithValue("@nombre", objecto.Nombre);
@@ -114,5 +111,40 @@ namespace CapaDato
             }
             return logoByte;
         }
+
+        public bool ActualizarLogo(byte[] image, out string mensaje) 
+        {
+            mensaje = string.Empty;
+            bool respuesta = true;
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(Conexion.cadena))
+                {
+                    conexion.Open();
+
+                    StringBuilder query = new StringBuilder();
+                    query.AppendLine("update NEGOCIO set Logo = @imagen");
+                    query.AppendLine("where IdNegocio = 1");
+
+                    SqlCommand cmd = new SqlCommand(query.ToString(), conexion);
+                    cmd.Parameters.AddWithValue("@imagen", image);
+                    cmd.CommandType = CommandType.Text;
+
+                    if (cmd.ExecuteNonQuery() < 1)
+                    {
+                        mensaje = "No se pudo Actualizar el logo.";
+                        respuesta = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                mensaje = ex.Message;
+                respuesta = false;
+            }
+            return respuesta;
+        }
     }
+    
 }
