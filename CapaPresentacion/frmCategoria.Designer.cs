@@ -340,6 +340,7 @@
             // 
             // btnexportar
             // 
+            this.btnexportar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnexportar.IconChar = FontAwesome.Sharp.IconChar.None;
             this.btnexportar.IconColor = System.Drawing.Color.Black;
             this.btnexportar.IconFont = FontAwesome.Sharp.IconFont.Auto;

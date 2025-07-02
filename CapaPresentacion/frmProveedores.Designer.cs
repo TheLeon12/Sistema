@@ -54,7 +54,6 @@
             this.btnlimpiar = new FontAwesome.Sharp.IconButton();
             this.btnguargar = new FontAwesome.Sharp.IconButton();
             this.dgvdata = new System.Windows.Forms.DataGridView();
-            this.txtindice = new System.Windows.Forms.TextBox();
             this.btnselecionar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Documento = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,11 +62,13 @@
             this.Telefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EstadoValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtindice = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvdata)).BeginInit();
             this.SuspendLayout();
             // 
             // iconButton1
             // 
+            this.iconButton1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.iconButton1.IconChar = FontAwesome.Sharp.IconChar.None;
             this.iconButton1.IconColor = System.Drawing.Color.Black;
             this.iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
@@ -377,16 +378,6 @@
             this.dgvdata.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvdata_CellContentClick);
             this.dgvdata.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvdata_CellPainting);
             // 
-            // txtindice
-            // 
-            this.txtindice.Location = new System.Drawing.Point(205, 78);
-            this.txtindice.Name = "txtindice";
-            this.txtindice.Size = new System.Drawing.Size(38, 26);
-            this.txtindice.TabIndex = 112;
-            this.txtindice.Text = "0";
-            this.txtindice.Visible = false;
-            this.txtindice.TextChanged += new System.EventHandler(this.txtindice_TextChanged);
-            // 
             // btnselecionar
             // 
             this.btnselecionar.HeaderText = "";
@@ -452,6 +443,16 @@
             this.Estado.Name = "Estado";
             this.Estado.ReadOnly = true;
             this.Estado.Width = 150;
+            // 
+            // txtindice
+            // 
+            this.txtindice.Location = new System.Drawing.Point(205, 78);
+            this.txtindice.Name = "txtindice";
+            this.txtindice.Size = new System.Drawing.Size(38, 26);
+            this.txtindice.TabIndex = 112;
+            this.txtindice.Text = "0";
+            this.txtindice.Visible = false;
+            this.txtindice.TextChanged += new System.EventHandler(this.txtindice_TextChanged);
             // 
             // frmProveedores
             // 

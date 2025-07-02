@@ -135,6 +135,7 @@
             // 
             // btnguardar
             // 
+            this.btnguardar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnguardar.IconChar = FontAwesome.Sharp.IconChar.None;
             this.btnguardar.IconColor = System.Drawing.Color.Black;
             this.btnguardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
@@ -148,6 +149,7 @@
             // 
             // btnsubir
             // 
+            this.btnsubir.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnsubir.IconChar = FontAwesome.Sharp.IconChar.Upload;
             this.btnsubir.IconColor = System.Drawing.Color.Black;
             this.btnsubir.IconFont = FontAwesome.Sharp.IconFont.Auto;

@@ -108,7 +108,7 @@ namespace CapaPresentacion
         private void Submenuregistrarcompra_Click(object sender, EventArgs e)
         {
             // Codigo para abrir el formulario de compras y cambiar el color del menu seleccionado
-            AbrirFormulario(Menucompras, new frmCompras());
+            AbrirFormulario(Menucompras, new frmCompras(usuarioActual));
         }
 
         private void Submenuverdetallecompra_Click(object sender, EventArgs e)
