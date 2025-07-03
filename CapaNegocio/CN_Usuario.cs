@@ -45,9 +45,7 @@ namespace CapaNegocio
             else
             {
                 return objcd_usuario.Registrar(obj, out Mensaje);
-            }
-
-            
+            }           
         }
 
         public bool Editar(Usuario obj, out string Mensaje)
@@ -76,8 +74,7 @@ namespace CapaNegocio
             else
             {
                 return objcd_usuario.Editar(obj, out Mensaje);
-            }
-            
+            }            
         }
 
         public bool Eliminar(Usuario obj, out string Mensaje)

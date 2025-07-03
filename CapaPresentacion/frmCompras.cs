@@ -1,4 +1,5 @@
-﻿using CapaEntidades;
+﻿using CapaDato;
+using CapaEntidades;
 using CapaNegocio;
 using CapaPresentacion.Modales;
 using CapaPresentacion.Utilidades;
@@ -39,6 +40,20 @@ namespace CapaPresentacion
             txtidproveedor.Text = "0";
             txtidproducto.Text = "0";
 
+            if (!dgvdata.Columns.Contains("Id"))
+            {
+                dgvdata.Columns.Add("Id", "Id");
+            }
+            if (!dgvdata.Columns.Contains("Documento"))
+            {
+                dgvdata.Columns.Add("Documento", "Documento");
+            }
+            if (!dgvdata.Columns.Contains("RazonSocial"))
+            {
+                dgvdata.Columns.Add("RazonSocial", "Razón Social");
+            }
+
+            dgvdata.CellDoubleClick += dgvdata_CellDoubleClick;
         }
 
         private void btnbuscar_Click(object sender, EventArgs e)
@@ -217,6 +232,24 @@ namespace CapaPresentacion
             }
         }
 
+        private void dgvdata_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int iRow = e.RowIndex;
+            int icolum = e.ColumnIndex;
+
+            if (iRow >= 0 && icolum > 0)
+            {
+                Proveedor Proveedor = new Proveedor()
+                {
+                    IdProveedor = Convert.ToInt32(dgvdata.Rows[iRow].Cells["Id"].Value),
+                    Documento = dgvdata.Rows[iRow].Cells["Documento"].Value?.ToString() ?? string.Empty,
+                    RazonSocial = dgvdata.Rows[iRow].Cells["RazonSocial"].Value?.ToString() ?? string.Empty
+                };
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+        }
+
         private void txtpreciocompra_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (Char.IsDigit(e.KeyChar))
@@ -268,5 +301,84 @@ namespace CapaPresentacion
                 }
             }
         }
+
+        private void btnregistrar_Click(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(txtidproveedor.Text) == 0)
+            {
+                MessageBox.Show("Debe seleccionar un proveedor", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                btnbuscar.Select();
+                return;
+            }
+
+            // Validación opcional: verificar que el proveedor exista
+            if (new CN_Proveedor().Listar().All(p => p.IdProveedor != Convert.ToInt32(txtidproveedor.Text)))
+            {
+                MessageBox.Show("El proveedor seleccionado no existe en la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (dgvdata.Rows.Count < 1)
+            {
+                MessageBox.Show("Debe agregar al menos un producto a la compra", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                btnbuscar2.Select();
+                return;
+            }
+
+            DataTable Detalle_Compra = new DataTable();
+            Detalle_Compra.Columns.Add("IdProducto", typeof(int));
+            Detalle_Compra.Columns.Add("PrecioCompra", typeof(decimal));
+            Detalle_Compra.Columns.Add("PrecioVenta", typeof(decimal));
+            Detalle_Compra.Columns.Add("Cantidad", typeof(int));
+            Detalle_Compra.Columns.Add("MontoTotal", typeof(decimal));
+
+            foreach (DataGridViewRow row in dgvdata.Rows)
+            {
+                Detalle_Compra.Rows.Add(
+                    new object[]
+                    {
+                Convert.ToInt32(row.Cells["IdProducto"].Value.ToString()),
+                Convert.ToDecimal(row.Cells["PrecioCompra"].Value.ToString()),
+                Convert.ToDecimal(row.Cells["PrecioVenta"].Value.ToString()),
+                Convert.ToInt32(row.Cells["Cantidad"].Value.ToString()),
+                Convert.ToDecimal(row.Cells["SubTotal"].Value.ToString())
+                    });
+            }
+
+            int idcorrelativo = new CN_Compra().ObtenerCorrelativo();
+            string numerodocumento = string.Format("{0:00000}", idcorrelativo);
+
+            Compra oCompra = new Compra()
+            {
+                oUsuario = new Usuario() { IdUsuario = _usuario.IdUsuario },
+                oProveedor = new Proveedor() { IdProveedor = Convert.ToInt32(txtidproveedor.Text) },
+                TipoDocumento = ((ObcionCombo)cbotipodocumento.SelectedItem).Texto,
+                NumeroDocumento = numerodocumento,
+                MontoTotal = Convert.ToDecimal(txttotalapagar.Text)
+            };
+
+            string mensaje = string.Empty;
+            bool respuesta = new CN_Compra().Registrar(oCompra, Detalle_Compra, out mensaje);
+
+            if (respuesta)
+            {
+                var result = MessageBox.Show("Número de compra generada: \n" + numerodocumento + "\n\n¿Deseas copiarlo al portapapeles?", "Mensaje", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (result == DialogResult.Yes)
+                    Clipboard.SetText(numerodocumento);
+
+                // Limpiar campos
+                txtidproveedor.Text = "0";
+                txtdocproveedor.Text = string.Empty;
+                txtnombreprovedor.Text = string.Empty;
+                txtidproveedor.BackColor = System.Drawing.Color.White;
+                dgvdata.Rows.Clear();
+                calcularTotal();
+            }
+            else
+            {
+                MessageBox.Show(mensaje, "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }

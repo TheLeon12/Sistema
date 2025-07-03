@@ -45,10 +45,10 @@ namespace CapaPresentacion.Modales
                 dgvdata.Rows[rowIndex].Cells["Documento"].Value = item.Documento;
                 dgvdata.Rows[rowIndex].Cells["RazonSocial"].Value = item.RazonSocial;
             }
-
-            // Eliminar la columna Id completamente
+            // Ocultar la columna Id, no eliminarla
             if (dgvdata.Columns.Contains("Id"))
-                dgvdata.Columns.Remove("Id");
+                dgvdata.Columns["Id"].Visible = false;
+
         }
 
         private void dgvdata_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -60,9 +60,11 @@ namespace CapaPresentacion.Modales
             {
                 _proveedor = new Proveedor()
                 {
+                    IdProveedor = Convert.ToInt32(dgvdata.Rows[iRow].Cells["Id"].Value),
                     Documento = dgvdata.Rows[iRow].Cells["Documento"].Value?.ToString() ?? string.Empty,
                     RazonSocial = dgvdata.Rows[iRow].Cells["RazonSocial"].Value?.ToString() ?? string.Empty
                 };
+
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
