@@ -219,6 +219,7 @@
             this.txtnumerodocumento.Name = "txtnumerodocumento";
             this.txtnumerodocumento.Size = new System.Drawing.Size(52, 26);
             this.txtnumerodocumento.TabIndex = 5;
+            this.txtnumerodocumento.Visible = false;
             // 
             // txtnombreproveedor
             // 
@@ -320,7 +321,7 @@
             this.iconButton1.IconChar = FontAwesome.Sharp.IconChar.None;
             this.iconButton1.IconColor = System.Drawing.Color.Black;
             this.iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton1.Location = new System.Drawing.Point(903, 651);
+            this.iconButton1.Location = new System.Drawing.Point(903, 655);
             this.iconButton1.Name = "iconButton1";
             this.iconButton1.Size = new System.Drawing.Size(223, 39);
             this.iconButton1.TabIndex = 60;

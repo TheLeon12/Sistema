@@ -57,13 +57,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.btnagregar = new FontAwesome.Sharp.IconButton();
             this.dgvdata = new System.Windows.Forms.DataGridView();
-            this.txtcambio = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.txtpagarcon = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.txttotalapagar = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.btnregistrar = new FontAwesome.Sharp.IconButton();
             this.Idproducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Producto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -71,6 +64,13 @@
             this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SubTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btneliminar = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.txtcambio = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtpagarcon = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txttotalapagar = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.btnregistrar = new FontAwesome.Sharp.IconButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -403,6 +403,57 @@
             this.dgvdata.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvdata_CellContentClick);
             this.dgvdata.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvdata_CellPainting);
             // 
+            // Idproducto
+            // 
+            this.Idproducto.HeaderText = "Idproducto";
+            this.Idproducto.MinimumWidth = 8;
+            this.Idproducto.Name = "Idproducto";
+            this.Idproducto.Visible = false;
+            this.Idproducto.Width = 150;
+            // 
+            // Producto
+            // 
+            this.Producto.HeaderText = "Producto";
+            this.Producto.MinimumWidth = 8;
+            this.Producto.Name = "Producto";
+            this.Producto.Width = 290;
+            // 
+            // Precio
+            // 
+            this.Precio.HeaderText = "Precio";
+            this.Precio.MinimumWidth = 8;
+            this.Precio.Name = "Precio";
+            this.Precio.Width = 150;
+            // 
+            // PrecioVenta
+            // 
+            this.PrecioVenta.HeaderText = "PrecioVenta";
+            this.PrecioVenta.MinimumWidth = 8;
+            this.PrecioVenta.Name = "PrecioVenta";
+            this.PrecioVenta.Visible = false;
+            this.PrecioVenta.Width = 150;
+            // 
+            // Cantidad
+            // 
+            this.Cantidad.HeaderText = "Cantidad";
+            this.Cantidad.MinimumWidth = 8;
+            this.Cantidad.Name = "Cantidad";
+            this.Cantidad.Width = 150;
+            // 
+            // SubTotal
+            // 
+            this.SubTotal.HeaderText = "Sub Total";
+            this.SubTotal.MinimumWidth = 8;
+            this.SubTotal.Name = "SubTotal";
+            this.SubTotal.Width = 150;
+            // 
+            // btneliminar
+            // 
+            this.btneliminar.HeaderText = "";
+            this.btneliminar.MinimumWidth = 8;
+            this.btneliminar.Name = "btneliminar";
+            this.btneliminar.Width = 50;
+            // 
             // txtcambio
             // 
             this.txtcambio.Location = new System.Drawing.Point(1077, 562);
@@ -471,57 +522,7 @@
             this.btnregistrar.TabIndex = 39;
             this.btnregistrar.Text = "Registrar";
             this.btnregistrar.UseVisualStyleBackColor = true;
-            // 
-            // Idproducto
-            // 
-            this.Idproducto.HeaderText = "Idproducto";
-            this.Idproducto.MinimumWidth = 8;
-            this.Idproducto.Name = "Idproducto";
-            this.Idproducto.Visible = false;
-            this.Idproducto.Width = 150;
-            // 
-            // Producto
-            // 
-            this.Producto.HeaderText = "Producto";
-            this.Producto.MinimumWidth = 8;
-            this.Producto.Name = "Producto";
-            this.Producto.Width = 290;
-            // 
-            // Precio
-            // 
-            this.Precio.HeaderText = "Precio";
-            this.Precio.MinimumWidth = 8;
-            this.Precio.Name = "Precio";
-            this.Precio.Width = 150;
-            // 
-            // PrecioVenta
-            // 
-            this.PrecioVenta.HeaderText = "PrecioVenta";
-            this.PrecioVenta.MinimumWidth = 8;
-            this.PrecioVenta.Name = "PrecioVenta";
-            this.PrecioVenta.Visible = false;
-            this.PrecioVenta.Width = 150;
-            // 
-            // Cantidad
-            // 
-            this.Cantidad.HeaderText = "Cantidad";
-            this.Cantidad.MinimumWidth = 8;
-            this.Cantidad.Name = "Cantidad";
-            this.Cantidad.Width = 150;
-            // 
-            // SubTotal
-            // 
-            this.SubTotal.HeaderText = "Sub Total";
-            this.SubTotal.MinimumWidth = 8;
-            this.SubTotal.Name = "SubTotal";
-            this.SubTotal.Width = 150;
-            // 
-            // btneliminar
-            // 
-            this.btneliminar.HeaderText = "";
-            this.btneliminar.MinimumWidth = 8;
-            this.btneliminar.Name = "btneliminar";
-            this.btneliminar.Width = 50;
+            this.btnregistrar.Click += new System.EventHandler(this.btnregistrar_Click);
             // 
             // frmVentas
             // 
