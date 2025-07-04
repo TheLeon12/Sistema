@@ -96,7 +96,7 @@ namespace CapaPresentacion
         private void Submenuregistrarventa_Click(object sender, EventArgs e)
         {
             // Codigo para abrir el formulario de ventas y cambiar el color del menu seleccionado
-            AbrirFormulario(Menuventas, new frmVentas());
+            AbrirFormulario(Menuventas, new frmVentas(usuarioActual));
         }
 
         private void Submenuverdetalleventa_Click(object sender, EventArgs e)

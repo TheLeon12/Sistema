@@ -34,26 +34,11 @@ namespace CapaPresentacion
             cbotipodocumento.ValueMember = "Valor";
             cbotipodocumento.SelectedIndex = 0;
 
-            //configuracion de la fecha 
+            // Configuración de la fecha 
             txtfecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
 
             txtidproveedor.Text = "0";
             txtidproducto.Text = "0";
-
-            if (!dgvdata.Columns.Contains("Id"))
-            {
-                dgvdata.Columns.Add("Id", "Id");
-            }
-            if (!dgvdata.Columns.Contains("Documento"))
-            {
-                dgvdata.Columns.Add("Documento", "Documento");
-            }
-            if (!dgvdata.Columns.Contains("RazonSocial"))
-            {
-                dgvdata.Columns.Add("RazonSocial", "Razón Social");
-            }
-
-            dgvdata.CellDoubleClick += dgvdata_CellDoubleClick;
         }
 
         private void btnbuscar_Click(object sender, EventArgs e)

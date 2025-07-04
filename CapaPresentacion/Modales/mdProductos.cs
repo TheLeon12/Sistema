@@ -27,7 +27,6 @@ namespace CapaPresentacion.Modales
         private void mdProductos_Load(object sender, EventArgs e)
         {
             // configuración de la búsqueda de producto 
-            // configuración de la búsqueda de producto 
             foreach (DataGridViewColumn columna in dgvdata.Columns)
             {
 
