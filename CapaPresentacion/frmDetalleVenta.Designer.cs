@@ -55,9 +55,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtmontototal = new System.Windows.Forms.TextBox();
+            this.txtmontopago = new System.Windows.Forms.TextBox();
+            this.txtmontocambio = new System.Windows.Forms.TextBox();
             this.iconButton1 = new FontAwesome.Sharp.IconButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -101,6 +101,7 @@
             this.btnlimpiarbuscador.Size = new System.Drawing.Size(55, 26);
             this.btnlimpiarbuscador.TabIndex = 60;
             this.btnlimpiarbuscador.UseVisualStyleBackColor = false;
+            this.btnlimpiarbuscador.Click += new System.EventHandler(this.btnlimpiarbuscador_Click);
             // 
             // btnbuscar
             // 
@@ -118,6 +119,7 @@
             this.btnbuscar.Size = new System.Drawing.Size(55, 26);
             this.btnbuscar.TabIndex = 59;
             this.btnbuscar.UseVisualStyleBackColor = false;
+            this.btnbuscar.Click += new System.EventHandler(this.btnbuscar_Click);
             // 
             // txtbuscar
             // 
@@ -330,27 +332,26 @@
             this.label11.TabIndex = 64;
             this.label11.Text = "Monto Cambio:";
             // 
-            // textBox1
+            // txtmontototal
             // 
-            this.textBox1.Location = new System.Drawing.Point(441, 607);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(74, 26);
-            this.textBox1.TabIndex = 65;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.txtmontototal.Location = new System.Drawing.Point(441, 607);
+            this.txtmontototal.Name = "txtmontototal";
+            this.txtmontototal.Size = new System.Drawing.Size(74, 26);
+            this.txtmontototal.TabIndex = 65;
             // 
-            // textBox2
+            // txtmontopago
             // 
-            this.textBox2.Location = new System.Drawing.Point(677, 607);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(74, 26);
-            this.textBox2.TabIndex = 66;
+            this.txtmontopago.Location = new System.Drawing.Point(677, 607);
+            this.txtmontopago.Name = "txtmontopago";
+            this.txtmontopago.Size = new System.Drawing.Size(74, 26);
+            this.txtmontopago.TabIndex = 66;
             // 
-            // textBox3
+            // txtmontocambio
             // 
-            this.textBox3.Location = new System.Drawing.Point(938, 607);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(74, 26);
-            this.textBox3.TabIndex = 67;
+            this.txtmontocambio.Location = new System.Drawing.Point(938, 607);
+            this.txtmontocambio.Name = "txtmontocambio";
+            this.txtmontocambio.Size = new System.Drawing.Size(74, 26);
+            this.txtmontocambio.TabIndex = 67;
             // 
             // iconButton1
             // 
@@ -363,6 +364,7 @@
             this.iconButton1.TabIndex = 68;
             this.iconButton1.Text = "Desagar en PDF";
             this.iconButton1.UseVisualStyleBackColor = true;
+            this.iconButton1.Click += new System.EventHandler(this.iconButton1_Click);
             // 
             // frmDetalleVenta
             // 
@@ -370,9 +372,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1214, 738);
             this.Controls.Add(this.iconButton1);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtmontocambio);
+            this.Controls.Add(this.txtmontopago);
+            this.Controls.Add(this.txtmontototal);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label6);
@@ -387,6 +389,7 @@
             this.Controls.Add(this.label10);
             this.Name = "frmDetalleVenta";
             this.Text = "frmDetalleVenta";
+            this.Load += new System.EventHandler(this.frmDetalleVenta_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -426,9 +429,9 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtmontototal;
+        private System.Windows.Forms.TextBox txtmontopago;
+        private System.Windows.Forms.TextBox txtmontocambio;
         private FontAwesome.Sharp.IconButton iconButton1;
     }
 }
