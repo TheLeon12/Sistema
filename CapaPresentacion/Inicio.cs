@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 using CapaEntidades;
 using CapaNegocio;
+using CapaPresentacion.Modales;
 using FontAwesome.Sharp;
 
 namespace CapaPresentacion
@@ -129,16 +130,35 @@ namespace CapaPresentacion
             AbrirFormulario((IconMenuItem)sender, new frmProveedores());
         }
 
-        private void Menureporte_Click(object sender, EventArgs e)
-        {
-            // Codigo para abrir el formulario de reportes y cambiar el color del menu seleccionado
-            AbrirFormulario((IconMenuItem)sender, new frmReportes());
-        }
 
         private void submenunegocio_Click(object sender, EventArgs e)
         {
             // Codigo para abrir el formulario de Negocio y cambiar el color del menu seleccionado
             AbrirFormulario(Menumantenedor, new frmNegocio());
+        }
+
+        private void Submenureportecompras_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario(Menureporte, new frmReportes());
+        }
+
+        private void Submenureporteventas_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario(Menureporte, new frmReporteVentas());
+        }
+
+        private void Menuacercade_Click(object sender, EventArgs e)
+        {
+            mdAcercade md = new mdAcercade();
+            md.ShowDialog();
+        }
+
+        private void btnsalir_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("¿Deseas Salir?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                this.Close();
+            }
         }
     }
 }

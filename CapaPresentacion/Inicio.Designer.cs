@@ -43,12 +43,15 @@
             this.Menuclientes = new FontAwesome.Sharp.IconMenuItem();
             this.Menuproveedor = new FontAwesome.Sharp.IconMenuItem();
             this.Menureporte = new FontAwesome.Sharp.IconMenuItem();
+            this.Submenureportecompras = new System.Windows.Forms.ToolStripMenuItem();
+            this.Submenureporteventas = new System.Windows.Forms.ToolStripMenuItem();
             this.Menuacercade = new FontAwesome.Sharp.IconMenuItem();
             this.menutitulo = new System.Windows.Forms.MenuStrip();
             this.label1 = new System.Windows.Forms.Label();
             this.Contenedor = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.Lblusuario = new System.Windows.Forms.Label();
+            this.btnsalir = new FontAwesome.Sharp.IconButton();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,7 +71,7 @@
             this.Menuacercade});
             this.menu.Location = new System.Drawing.Point(0, 60);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(1436, 59);
+            this.menu.Size = new System.Drawing.Size(1436, 57);
             this.menu.TabIndex = 0;
             this.menu.Text = "menuStrip1";
             // 
@@ -220,6 +223,9 @@
             // 
             // Menureporte
             // 
+            this.Menureporte.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Submenureportecompras,
+            this.Submenureporteventas});
             this.Menureporte.IconChar = FontAwesome.Sharp.IconChar.ChartBar;
             this.Menureporte.IconColor = System.Drawing.Color.Black;
             this.Menureporte.IconFont = FontAwesome.Sharp.IconFont.Auto;
@@ -228,7 +234,20 @@
             this.Menureporte.Size = new System.Drawing.Size(90, 55);
             this.Menureporte.Text = "Reporte";
             this.Menureporte.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.Menureporte.Click += new System.EventHandler(this.Menureporte_Click);
+            // 
+            // Submenureportecompras
+            // 
+            this.Submenureportecompras.Name = "Submenureportecompras";
+            this.Submenureportecompras.Size = new System.Drawing.Size(253, 34);
+            this.Submenureportecompras.Text = "Reporte Compras";
+            this.Submenureportecompras.Click += new System.EventHandler(this.Submenureportecompras_Click);
+            // 
+            // Submenureporteventas
+            // 
+            this.Submenureporteventas.Name = "Submenureporteventas";
+            this.Submenureporteventas.Size = new System.Drawing.Size(253, 34);
+            this.Submenureporteventas.Text = "Reporte Ventas";
+            this.Submenureporteventas.Click += new System.EventHandler(this.Submenureporteventas_Click);
             // 
             // Menuacercade
             // 
@@ -240,6 +259,7 @@
             this.Menuacercade.Size = new System.Drawing.Size(110, 55);
             this.Menuacercade.Text = "Acerca de ";
             this.Menuacercade.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.Menuacercade.Click += new System.EventHandler(this.Menuacercade_Click);
             // 
             // menutitulo
             // 
@@ -269,9 +289,9 @@
             // Contenedor
             // 
             this.Contenedor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Contenedor.Location = new System.Drawing.Point(0, 119);
+            this.Contenedor.Location = new System.Drawing.Point(0, 117);
             this.Contenedor.Name = "Contenedor";
-            this.Contenedor.Size = new System.Drawing.Size(1436, 734);
+            this.Contenedor.Size = new System.Drawing.Size(1436, 736);
             this.Contenedor.TabIndex = 3;
             // 
             // label2
@@ -280,7 +300,7 @@
             this.label2.BackColor = System.Drawing.Color.SteelBlue;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(1103, 25);
+            this.label2.Location = new System.Drawing.Point(1129, 25);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(85, 25);
             this.label2.TabIndex = 4;
@@ -292,17 +312,35 @@
             this.Lblusuario.BackColor = System.Drawing.Color.SteelBlue;
             this.Lblusuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Lblusuario.ForeColor = System.Drawing.Color.White;
-            this.Lblusuario.Location = new System.Drawing.Point(1180, 26);
+            this.Lblusuario.Location = new System.Drawing.Point(1206, 26);
             this.Lblusuario.Name = "Lblusuario";
             this.Lblusuario.Size = new System.Drawing.Size(102, 25);
             this.Lblusuario.TabIndex = 0;
             this.Lblusuario.Text = "Lblusuario";
+            // 
+            // btnsalir
+            // 
+            this.btnsalir.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnsalir.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnsalir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnsalir.IconChar = FontAwesome.Sharp.IconChar.SignOut;
+            this.btnsalir.IconColor = System.Drawing.Color.White;
+            this.btnsalir.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnsalir.IconSize = 50;
+            this.btnsalir.Location = new System.Drawing.Point(1354, 7);
+            this.btnsalir.Name = "btnsalir";
+            this.btnsalir.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.btnsalir.Size = new System.Drawing.Size(70, 48);
+            this.btnsalir.TabIndex = 5;
+            this.btnsalir.UseVisualStyleBackColor = false;
+            this.btnsalir.Click += new System.EventHandler(this.btnsalir_Click);
             // 
             // Inicio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1436, 853);
+            this.Controls.Add(this.btnsalir);
             this.Controls.Add(this.Lblusuario);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Contenedor);
@@ -344,6 +382,9 @@
         private FontAwesome.Sharp.IconMenuItem Submenuregistrarcompra;
         private FontAwesome.Sharp.IconMenuItem Submenuverdetallecompra;
         private System.Windows.Forms.ToolStripMenuItem submenunegocio;
+        private System.Windows.Forms.ToolStripMenuItem Submenureportecompras;
+        private System.Windows.Forms.ToolStripMenuItem Submenureporteventas;
+        private FontAwesome.Sharp.IconButton btnsalir;
     }
 }
 
