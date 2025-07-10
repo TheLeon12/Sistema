@@ -1,20 +1,15 @@
 ﻿using CapaEntidades;
 using CapaNegocio;
-using DocumentFormat.OpenXml.Bibliography;
-using DocumentFormat.OpenXml.Drawing;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.tool.xml;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Font = System.Drawing.Font;
 
 namespace CapaPresentacion
 {
@@ -41,8 +36,9 @@ namespace CapaPresentacion
                 dgvdata.Rows.Clear();
                 foreach (DetalleCompra dc in oCompra.oDetalleCompra)
                 {
-                    dgvdata.Rows.Add(new object[] {dc.oProducto.Nombre, dc.PrecioCompra, dc.Cantidad, dc.MontoTotal});
+                    dgvdata.Rows.Add(new object[] { dc.oProducto.Nombre, dc.PrecioCompra, dc.Cantidad, dc.MontoTotal });
                 }
+
                 txtmontototal.Text = oCompra.MontoTotal.ToString("0.00");
             }
         }
@@ -62,26 +58,36 @@ namespace CapaPresentacion
 
         private void iconButton1_Click(object sender, EventArgs e)
         {
-            if (txttipodocumento.Text == "")
+            if (txtnumerodocumento.Text == "")
             {
-                MessageBox.Show("No se encontro resultados", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("No se encontró el número de documento", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
+            if (txttipodocumento.Text == "Factura")
+            {
+                PrintDocument printDoc = new PrintDocument();
+                printDoc.PrintPage += PrintFacturaTicket;
+                PrintPreviewDialog previewDialog = new PrintPreviewDialog
+                {
+                    Document = printDoc
+                };
+                previewDialog.ShowDialog(); // Mostrar vista previa antes de imprimir (opcional)
+                return;
+            }
+
+            // PDF GENERACIÓN (si no es factura)
             string Texto_Html = Properties.Resources.PlantillaCompra.ToString();
             Negocio odatos = new CN_Negocio().ObtenerDatos();
 
             Texto_Html = Texto_Html.Replace("@nombrenegocio", odatos.Nombre.ToUpper());
             Texto_Html = Texto_Html.Replace("@docnegocio", odatos.RUC);
             Texto_Html = Texto_Html.Replace("@direcnegocio", odatos.Direccion);
-
-            Texto_Html = Texto_Html.Replace("@tipodocumento", txttipodocumento.Text.ToUpper());
             Texto_Html = Texto_Html.Replace("@numerodocumento", txtnumerodocumento.Text);
-
-            Texto_Html = Texto_Html.Replace("@docproveedor", txtdocproveedor.Text);
-            Texto_Html = Texto_Html.Replace("@nombreproveedor", txtnombreproveedor.Text);
             Texto_Html = Texto_Html.Replace("@fecharegistro", txtfecha.Text);
             Texto_Html = Texto_Html.Replace("@usuarioregistro", txtusuario.Text);
+            Texto_Html = Texto_Html.Replace("@docproveedor", txtdocproveedor.Text);
+            Texto_Html = Texto_Html.Replace("@nombreproveedor", txtnombreproveedor.Text);
 
             string filas = string.Empty;
             foreach (DataGridViewRow row in dgvdata.Rows)
@@ -93,6 +99,7 @@ namespace CapaPresentacion
                 filas += "<td>" + row.Cells["SubTotal"].Value.ToString() + "</td>";
                 filas += "</tr>";
             }
+
             Texto_Html = Texto_Html.Replace("@filas", filas);
             Texto_Html = Texto_Html.Replace("@montototal", txtmontototal.Text);
 
@@ -127,9 +134,45 @@ namespace CapaPresentacion
 
                     pdfDoc.Close();
                     stream.Close();
-                    MessageBox.Show("El archivo PDF se ha generado correctamente", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+
+                MessageBox.Show("El archivo PDF se ha generado correctamente", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Abrir automáticamente el archivo PDF
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                {
+                    FileName = savefile.FileName,
+                    UseShellExecute = true
+                });
             }
+        }
+
+        private void PrintFacturaTicket(object sender, PrintPageEventArgs e)
+        {
+            Font font = new Font("Courier New", 10);
+            float y = 20;
+
+            e.Graphics.DrawString("**** FACTURA ****", new Font("Courier New", 12, FontStyle.Bold), Brushes.Black, new PointF(10, y));
+            y += 25;
+            e.Graphics.DrawString($"Fecha: {txtfecha.Text}", font, Brushes.Black, 10, y); y += 20;
+            e.Graphics.DrawString($"Documento: {txtnumerodocumento.Text}", font, Brushes.Black, 10, y); y += 20;
+            e.Graphics.DrawString($"Proveedor: {txtnombreproveedor.Text}", font, Brushes.Black, 10, y); y += 20;
+
+            e.Graphics.DrawString("--------------------------------", font, Brushes.Black, 10, y); y += 20;
+            e.Graphics.DrawString("Producto        Cnt  SubTotal", font, Brushes.Black, 10, y); y += 20;
+            e.Graphics.DrawString("--------------------------------", font, Brushes.Black, 10, y); y += 20;
+
+            foreach (DataGridViewRow row in dgvdata.Rows)
+            {
+                string producto = row.Cells["Producto"].Value.ToString();
+                string cantidad = row.Cells["Cantidad"].Value.ToString();
+                string subtotal = row.Cells["SubTotal"].Value.ToString();
+                e.Graphics.DrawString($"{producto,-15} {cantidad,3} {subtotal,8}", font, Brushes.Black, 10, y);
+                y += 20;
+            }
+
+            e.Graphics.DrawString("--------------------------------", font, Brushes.Black, 10, y); y += 20;
+            e.Graphics.DrawString($"TOTAL: {txtmontototal.Text}", new Font("Courier New", 10, FontStyle.Bold), Brushes.Black, 10, y);
         }
     }
 }
