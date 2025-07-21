@@ -56,6 +56,7 @@
             this.PrecioVenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SubTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvdata)).BeginInit();
             this.SuspendLayout();
             // 
@@ -123,7 +124,6 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(1410, 104);
             this.label10.TabIndex = 30;
-            this.label10.Text = "Reporte Compras";
             // 
             // btnexportar
             // 
@@ -336,11 +336,23 @@
             this.SubTotal.Name = "SubTotal";
             this.SubTotal.Width = 150;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.White;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(12, 22);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(152, 25);
+            this.label3.TabIndex = 73;
+            this.label3.Text = "Reporte Ventas ";
+            // 
             // frmReporteVentas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1429, 746);
+            this.ClientSize = new System.Drawing.Size(1445, 746);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.dgvdata);
             this.Controls.Add(this.btnexportar);
             this.Controls.Add(this.btnlimpiarbuscador);
@@ -394,5 +406,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn PrecioVenta;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cantidad;
         private System.Windows.Forms.DataGridViewTextBoxColumn SubTotal;
+        private System.Windows.Forms.Label label3;
     }
 }

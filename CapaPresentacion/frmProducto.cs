@@ -23,26 +23,30 @@ namespace CapaPresentacion
 
         private void frmProducto_Load(object sender, EventArgs e)
         {
-            // configuracion de los roles y estados en los combobox
+            // configuración de los roles y estados en los combobox
             cboestado.Items.Add(new ObcionCombo() { Valor = 1, Texto = "Activo" });
             cboestado.Items.Add(new ObcionCombo() { Valor = 0, Texto = "No Activo" });
             cboestado.DisplayMember = "Texto";
             cboestado.ValueMember = "Valor";
             cboestado.SelectedIndex = 0; // Selecciona el primer elemento por defecto
 
+            // Cargar categorías
             List<Categoria> listacategoria = new CN_Categoria().Listar();
+            cbocategoria.Items.Clear();
             foreach (Categoria item in listacategoria)
             {
                 cbocategoria.Items.Add(new ObcionCombo() { Valor = item.IdCategoria, Texto = item.Descripcion });
             }
             cbocategoria.DisplayMember = "Texto";
             cbocategoria.ValueMember = "Valor";
-            cbocategoria.SelectedIndex = 0;
+            if (cbocategoria.Items.Count > 0)
+                cbocategoria.SelectedIndex = 0;
+            else
+                cbocategoria.Text = "Sin categorías";
 
-            //configuracion de la busqueda de producto 
+            // configuración de la búsqueda de producto 
             foreach (DataGridViewColumn columna in dgvdata.Columns)
             {
-
                 if (columna.Visible == true && columna.Name != "btnselecionar")
                 {
                     cbobusqueda.Items.Add(new ObcionCombo() { Valor = columna.Name, Texto = columna.HeaderText });
@@ -50,29 +54,34 @@ namespace CapaPresentacion
             }
             cbobusqueda.DisplayMember = "Texto";
             cbobusqueda.ValueMember = "Valor";
-            cbobusqueda.SelectedIndex = 0;
+            if (cbobusqueda.Items.Count > 0)
+                cbobusqueda.SelectedIndex = 0;
 
-
-            //Mostrar todos los producto 
-            List<Producto> lista = new CN_Producto().Listar();
-            foreach (Producto item in lista)
+            // Mostrar todos los productos solo si hay categorías
+            if (listacategoria.Count > 0)
             {
-
-                dgvdata.Rows.Add(new object[] { 
-                    "",
-                    item.IdProducto,
-                    item.Codigo,
-                    item.Nombre,
-                    item.Descripcion,
-                    item.oCategoria.IdCategoria,
-                    item.oCategoria.Descripcion,
-                    item.Stock,
-                    item.PrecioCompra,
-                    item.PrecioVenta,
-                    item.Estado ? 1 : 0,
-                    item.Estado ? "Activo" : "No Activo"
-                });
-
+                List<Producto> lista = new CN_Producto().Listar();
+                foreach (Producto item in lista)
+                {
+                    dgvdata.Rows.Add(new object[] {
+                        "",
+                        item.IdProducto,
+                        item.Codigo,
+                        item.Nombre,
+                        item.Descripcion,
+                        item.oCategoria.IdCategoria,
+                        item.oCategoria.Descripcion,
+                        item.Stock,
+                        item.PrecioCompra,
+                        item.PrecioVenta,
+                        item.Estado ? 1 : 0,
+                        item.Estado ? "Activo" : "No Activo"
+                    });
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay categorías registradas. Por favor, registre al menos una categoría antes de agregar productos.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

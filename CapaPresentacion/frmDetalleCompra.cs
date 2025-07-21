@@ -36,7 +36,7 @@ namespace CapaPresentacion
                 dgvdata.Rows.Clear();
                 foreach (DetalleCompra dc in oCompra.oDetalleCompra)
                 {
-                    dgvdata.Rows.Add(new object[] { dc.oProducto.Nombre, dc.PrecioCompra, dc.Cantidad, dc.MontoTotal });
+                    dgvdata.Rows.Add(dc.oProducto.Nombre, dc.PrecioCompra, dc.Cantidad, dc.MontoTotal);
                 }
 
                 txtmontototal.Text = oCompra.MontoTotal.ToString("0.00");
@@ -45,38 +45,40 @@ namespace CapaPresentacion
 
         private void btnlimpiarbuscador_Click(object sender, EventArgs e)
         {
-            txtbuscar.Text = string.Empty;
-            txtfecha.Text = string.Empty;
-            txttipodocumento.Text = string.Empty;
-            txtusuario.Text = string.Empty;
-            txtdocproveedor.Text = string.Empty;
-            txtnombreproveedor.Text = string.Empty;
-
+            txtbuscar.Clear();
+            txtfecha.Clear();
+            txttipodocumento.Clear();
+            txtusuario.Clear();
+            txtdocproveedor.Clear();
+            txtnombreproveedor.Clear();
             dgvdata.Rows.Clear();
             txtmontototal.Text = "0.00";
         }
 
         private void iconButton1_Click(object sender, EventArgs e)
         {
-            if (txtnumerodocumento.Text == "")
+            if (string.IsNullOrEmpty(txtnumerodocumento.Text))
             {
                 MessageBox.Show("No se encontró el número de documento", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            if (txttipodocumento.Text == "Factura")
+            if (txttipodocumento.Text.Equals("Factura", StringComparison.OrdinalIgnoreCase))
             {
                 PrintDocument printDoc = new PrintDocument();
+
+                // Tamaño de ticket 60mm x 80mm en hundredths of an inch
+                PaperSize ticketSize = new PaperSize("TicketCompra", 236, 315); // 60mm x 80mm aprox
+                printDoc.DefaultPageSettings.PaperSize = ticketSize;
+                printDoc.DefaultPageSettings.Margins = new Margins(5, 5, 5, 5);
+
                 printDoc.PrintPage += PrintFacturaTicket;
-                PrintPreviewDialog previewDialog = new PrintPreviewDialog
-                {
-                    Document = printDoc
-                };
-                previewDialog.ShowDialog(); // Mostrar vista previa antes de imprimir (opcional)
+                PrintPreviewDialog previewDialog = new PrintPreviewDialog { Document = printDoc };
+                previewDialog.ShowDialog(); // O usa printDoc.Print(); para imprimir directamente
                 return;
             }
 
-            // PDF GENERACIÓN (si no es factura)
+            // PDF si no es factura
             string Texto_Html = Properties.Resources.PlantillaCompra.ToString();
             Negocio odatos = new CN_Negocio().ObtenerDatos();
 
@@ -89,90 +91,104 @@ namespace CapaPresentacion
             Texto_Html = Texto_Html.Replace("@docproveedor", txtdocproveedor.Text);
             Texto_Html = Texto_Html.Replace("@nombreproveedor", txtnombreproveedor.Text);
 
-            string filas = string.Empty;
+            string filas = "";
             foreach (DataGridViewRow row in dgvdata.Rows)
             {
-                filas += "<tr>";
-                filas += "<td>" + row.Cells["Producto"].Value.ToString() + "</td>";
-                filas += "<td>" + row.Cells["PrecioCompra"].Value.ToString() + "</td>";
-                filas += "<td>" + row.Cells["Cantidad"].Value.ToString() + "</td>";
-                filas += "<td>" + row.Cells["SubTotal"].Value.ToString() + "</td>";
-                filas += "</tr>";
+                filas += $"<tr><td>{row.Cells["Producto"].Value}</td><td>{row.Cells["PrecioCompra"].Value}</td><td>{row.Cells["Cantidad"].Value}</td><td>{row.Cells["SubTotal"].Value}</td></tr>";
             }
 
             Texto_Html = Texto_Html.Replace("@filas", filas);
             Texto_Html = Texto_Html.Replace("@montototal", txtmontototal.Text);
 
-            SaveFileDialog savefile = new SaveFileDialog();
-            savefile.FileName = string.Format("Compra_{0}.pdf", txtnumerodocumento.Text);
-            savefile.Filter = "pdf Files | *.pdf";
-
-            if (savefile.ShowDialog() == DialogResult.OK)
+            using (SaveFileDialog sfd = new SaveFileDialog { FileName = $"Compra_{txtnumerodocumento.Text}.pdf", Filter = "pdf Files|*.pdf" })
             {
-                using (FileStream stream = new FileStream(savefile.FileName, FileMode.Create))
+                if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    Document pdfDoc = new Document(PageSize.A4, 25, 25, 25, 25);
-                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
-                    pdfDoc.Open();
-
-                    bool obtenido = true;
-                    byte[] byteImage = new CN_Negocio().ObtenerLogo(out obtenido);
-
-                    if (obtenido)
+                    using (FileStream stream = new FileStream(sfd.FileName, FileMode.Create))
                     {
-                        iTextSharp.text.Image imagen = iTextSharp.text.Image.GetInstance(byteImage);
-                        imagen.ScaleToFit(60, 60);
-                        imagen.Alignment = iTextSharp.text.Image.UNDERLYING;
-                        imagen.SetAbsolutePosition(pdfDoc.Left, pdfDoc.GetTop(51));
-                        pdfDoc.Add(imagen);
-                    }
+                        Document pdf = new Document(PageSize.A4, 25, 25, 25, 25);
+                        PdfWriter writer = PdfWriter.GetInstance(pdf, stream);
+                        pdf.Open();
 
-                    using (StringReader sr = new StringReader(Texto_Html))
-                    {
-                        XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
-                    }
+                        bool ok = true;
+                        byte[] logo = new CN_Negocio().ObtenerLogo(out ok);
+                        if (ok)
+                        {
+                            iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(logo);
+                            img.ScaleToFit(60, 60);
+                            img.Alignment = iTextSharp.text.Image.UNDERLYING;
+                            img.SetAbsolutePosition(pdf.Left, pdf.GetTop(51));
+                            pdf.Add(img);
+                        }
 
-                    pdfDoc.Close();
-                    stream.Close();
+                        using (StringReader sr = new StringReader(Texto_Html))
+                            XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdf, sr);
+
+                        pdf.Close();
+                    }
+                    MessageBox.Show("PDF generado correctamente", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = sfd.FileName, UseShellExecute = true });
                 }
-
-                MessageBox.Show("El archivo PDF se ha generado correctamente", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Abrir automáticamente el archivo PDF
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
-                {
-                    FileName = savefile.FileName,
-                    UseShellExecute = true
-                });
             }
         }
 
         private void PrintFacturaTicket(object sender, PrintPageEventArgs e)
         {
-            Font font = new Font("Courier New", 10);
-            float y = 20;
+            var g = e.Graphics;
+            float y = 10f;
 
-            e.Graphics.DrawString("**** FACTURA ****", new Font("Courier New", 12, FontStyle.Bold), Brushes.Black, new PointF(10, y));
-            y += 25;
-            e.Graphics.DrawString($"Fecha: {txtfecha.Text}", font, Brushes.Black, 10, y); y += 20;
-            e.Graphics.DrawString($"Documento: {txtnumerodocumento.Text}", font, Brushes.Black, 10, y); y += 20;
-            e.Graphics.DrawString($"Proveedor: {txtnombreproveedor.Text}", font, Brushes.Black, 10, y); y += 20;
+            // LOGO
+            bool obtenido = true;
+            byte[] logoBytes = new CN_Negocio().ObtenerLogo(out obtenido);
+            if (obtenido)
+            {
+                using (MemoryStream ms = new MemoryStream(logoBytes))
+                {
+                    System.Drawing.Image logo = System.Drawing.Image.FromStream(ms);
+                    g.DrawImage(logo, new System.Drawing.Rectangle(40, (int)y, 160, 60)); // Ajusta posición
+                    y += 65;
+                }
+            }
 
-            e.Graphics.DrawString("--------------------------------", font, Brushes.Black, 10, y); y += 20;
-            e.Graphics.DrawString("Producto        Cnt  SubTotal", font, Brushes.Black, 10, y); y += 20;
-            e.Graphics.DrawString("--------------------------------", font, Brushes.Black, 10, y); y += 20;
+            // DATOS NEGOCIO
+            Negocio negocio = new CN_Negocio().ObtenerDatos();
+            var font = new Font("Courier New", 9);
+            var boldFont = new Font("Courier New", 10, FontStyle.Bold);
 
+            g.DrawString(negocio.Nombre, boldFont, Brushes.Black, 10, y); y += 15;
+            g.DrawString("RNC: " + negocio.RUC, font, Brushes.Black, 10, y); y += 15;
+            g.DrawString(negocio.Direccion, font, Brushes.Black, 10, y); y += 15;
+            g.DrawString("Tel: 809-000-0000", font, Brushes.Black, 10, y); y += 20;
+
+            // ENCABEZADO
+            g.DrawString("**** COMPRA ****", boldFont, Brushes.Black, 40, y); y += 20;
+            g.DrawString($"Fecha: {txtfecha.Text}", font, Brushes.Black, 10, y); y += 15;
+            g.DrawString($"Documento: {txtnumerodocumento.Text}", font, Brushes.Black, 10, y); y += 15;
+            g.DrawString($"Proveedor: {txtnombreproveedor.Text}", font, Brushes.Black, 10, y); y += 20;
+
+            g.DrawString(new string('-', 32), font, Brushes.Black, 10, y); y += 15;
+            g.DrawString("CANT  PRECIO   TOTAL", font, Brushes.Black, 10, y); y += 15;
+            g.DrawString(new string('-', 32), font, Brushes.Black, 10, y); y += 15;
+
+            // DETALLES
             foreach (DataGridViewRow row in dgvdata.Rows)
             {
                 string producto = row.Cells["Producto"].Value.ToString();
-                string cantidad = row.Cells["Cantidad"].Value.ToString();
-                string subtotal = row.Cells["SubTotal"].Value.ToString();
-                e.Graphics.DrawString($"{producto,-15} {cantidad,3} {subtotal,8}", font, Brushes.Black, 10, y);
-                y += 20;
+                string cantidad = Convert.ToDecimal(row.Cells["Cantidad"].Value).ToString("0");
+                string precio = Convert.ToDecimal(row.Cells["PrecioCompra"].Value).ToString("0.00");
+                string subtotal = Convert.ToDecimal(row.Cells["SubTotal"].Value).ToString("0.00");
+
+                g.DrawString($"{producto}", font, Brushes.Black, 10, y); y += 15;
+                g.DrawString($"  {cantidad.PadRight(4)} {precio.PadRight(8)} {subtotal.PadLeft(6)}", font, Brushes.Black, 10, y); y += 15;
             }
 
-            e.Graphics.DrawString("--------------------------------", font, Brushes.Black, 10, y); y += 20;
-            e.Graphics.DrawString($"TOTAL: {txtmontototal.Text}", new Font("Courier New", 10, FontStyle.Bold), Brushes.Black, 10, y);
+            g.DrawString(new string('-', 32), font, Brushes.Black, 10, y); y += 15;
+            g.DrawString($"TOTAL: {txtmontototal.Text}", boldFont, Brushes.Black, 10, y); y += 20;
+            g.DrawString("Gracias por su compra", font, Brushes.Black, 20, y); y += 20;
+        }
+
+        private void frmDetalleCompra_Load(object sender, EventArgs e)
+        {
         }
     }
 }

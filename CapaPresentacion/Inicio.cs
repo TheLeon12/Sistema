@@ -1,4 +1,8 @@
-﻿using System;
+﻿using CapaEntidades;
+using CapaNegocio;
+using CapaPresentacion.Modales;
+using FontAwesome.Sharp;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,12 +10,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Forms;
-
-using CapaEntidades;
-using CapaNegocio;
-using CapaPresentacion.Modales;
-using FontAwesome.Sharp;
 
 namespace CapaPresentacion
 {
@@ -31,6 +31,11 @@ namespace CapaPresentacion
 
         private void Inicio_Load(object sender, EventArgs e)
         {
+            this.WindowState = FormWindowState.Maximized;
+            Contenedor.Dock = DockStyle.Fill;
+            // Maximiza la ventana al iniciar
+            
+
             //Configuracion para que se muestren los botones mediante el rol y los permisos del usuario actual
             List<Permiso> ListaPermisos = new CN_Permiso().Listar(usuarioActual.IdUsuario);
 
@@ -66,14 +71,11 @@ namespace CapaPresentacion
             FormularioActivo = formulario;
             FormularioActivo.TopLevel = false;
             FormularioActivo.FormBorderStyle = FormBorderStyle.None;
-            FormularioActivo.Dock = DockStyle.Fill;
+            FormularioActivo.Dock = DockStyle.Fill; // Esto es clave
             FormularioActivo.BackColor = Color.SteelBlue;
 
             Contenedor.Controls.Add(formulario);
             formulario.Show();
-
-
-
         }
 
         private void Menuusuario_Click(object sender, EventArgs e)

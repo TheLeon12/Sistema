@@ -71,13 +71,18 @@ namespace CapaPresentacion
             if (txttipodocumento.Text.Equals("Factura", StringComparison.OrdinalIgnoreCase))
             {
                 PrintDocument pd = new PrintDocument();
+
+                // Tamaño personalizado 60mm x 80mm
+                PaperSize customSize = new PaperSize("Ticket", 240, 315);
+                pd.DefaultPageSettings.PaperSize = customSize;
+                pd.DefaultPageSettings.Margins = new Margins(5, 5, 5, 5);
+
                 pd.PrintPage += PrintVentaTicket;
-                PrintPreviewDialog preview = new PrintPreviewDialog { Document = pd };
-                preview.ShowDialog(); // O `pd.Print()` para imprimir directamente
+                pd.Print(); // Imprimir directamente
                 return;
             }
 
-            // PDF
+            // Si no es factura, se genera PDF
             string Texto_Html = Properties.Resources.PlantillaVenta.ToString();
             Negocio odatos = new CN_Negocio().ObtenerDatos();
 
@@ -127,6 +132,7 @@ namespace CapaPresentacion
 
                         pdf.Close();
                     }
+
                     MessageBox.Show("PDF generado correctamente", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = sfd.FileName, UseShellExecute = true });
                 }
@@ -136,27 +142,64 @@ namespace CapaPresentacion
         private void PrintVentaTicket(object sender, PrintPageEventArgs e)
         {
             var g = e.Graphics;
-            var font = new Font("Courier New", 10);
-            float y = 20f;
-            g.DrawString("***** FACTURA *****", new Font("Courier New", 12, FontStyle.Bold), Brushes.Black, 10, y); y += 25;
-            g.DrawString($"Fecha: {txtfecha.Text}", font, Brushes.Black, 10, y); y += 20;
-            g.DrawString($"N° Documento: {txtidcliente.Text}", font, Brushes.Black, 10, y); y += 20;
-            g.DrawString($"Cliente: {txtnombrecliente.Text}", font, Brushes.Black, 10, y); y += 20;
-            g.DrawString(new string('-', 32), font, Brushes.Black, 10, y); y += 20;
-            g.DrawString("Producto       Cnt   Sub", font, Brushes.Black, 10, y); y += 20;
-            g.DrawString(new string('-', 32), font, Brushes.Black, 10, y); y += 20;
+            float y = 10f;
+
+            // Logo del negocio
+            bool obtenido = true;
+            byte[] logoBytes = new CN_Negocio().ObtenerLogo(out obtenido);
+            if (obtenido)
+            {
+                using (MemoryStream ms = new MemoryStream(logoBytes))
+                {
+                    System.Drawing.Image logo = System.Drawing.Image.FromStream(ms);
+                    g.DrawImage(logo, new System.Drawing.Rectangle(50, (int)y, 180, 60));
+                    y += 65;
+                }
+            }
+
+            // Datos del negocio
+            Negocio negocio = new CN_Negocio().ObtenerDatos();
+            var font = new Font("Courier New", 9);
+            var boldFont = new Font("Courier New", 10, FontStyle.Bold);
+
+            g.DrawString(negocio.Nombre, boldFont, Brushes.Black, 10, y); y += 15;
+            g.DrawString("RNC: " + negocio.RUC, font, Brushes.Black, 10, y); y += 15;
+            g.DrawString(negocio.Direccion, font, Brushes.Black, 10, y); y += 15;
+            g.DrawString("Tel: 809-870-8886", font, Brushes.Black, 10, y); y += 20;
+
+            g.DrawString($"NCF: -", font, Brushes.Black, 10, y); y += 15;
+            g.DrawString($"Fecha: {txtfecha.Text}", font, Brushes.Black, 10, y); y += 15;
+            g.DrawString($"Hora: {DateTime.Now:hh:mm tt}", font, Brushes.Black, 10, y); y += 15;
+            g.DrawString($"No. Factura: {txtidcliente.Text}", font, Brushes.Black, 10, y); y += 15;
+            g.DrawString($"Cliente: {txtnombrecliente.Text}", font, Brushes.Black, 10, y); y += 15;
+            g.DrawString($"RNC/Cédula: {txtdoccliente.Text}", font, Brushes.Black, 10, y); y += 20;
+
+            g.DrawString(new string('-', 32), font, Brushes.Black, 10, y); y += 15;
+            g.DrawString("CANT  PRECIO  ITBIS  TOTAL", font, Brushes.Black, 10, y); y += 15;
+            g.DrawString(new string('-', 32), font, Brushes.Black, 10, y); y += 15;
 
             foreach (DataGridViewRow row in dgvdata.Rows)
             {
-                string prod = row.Cells["Producto"].Value.ToString();
-                string cnt = row.Cells["Cantidad"].Value.ToString();
-                string sub = row.Cells["SubTotal"].Value.ToString();
-                g.DrawString($"{prod,-15} {cnt,3} {sub,8}", font, Brushes.Black, 10, y);
-                y += 20;
+                string cant = row.Cells["Cantidad"].Value.ToString();
+                string precio = Convert.ToDecimal(row.Cells["Precio"].Value).ToString("0.00");
+                string itbis = "$0.00"; // Ajusta si usas ITBIS real
+                string total = Convert.ToDecimal(row.Cells["SubTotal"].Value).ToString("0.00");
+
+                g.DrawString($"{cant.PadRight(5)} {precio.PadRight(7)} {itbis.PadRight(6)} {total.PadLeft(6)}", font, Brushes.Black, 10, y);
+                y += 15;
             }
 
-            g.DrawString(new string('-', 32), font, Brushes.Black, 10, y); y += 20;
-            g.DrawString($"TOTAL: {txtmontototal.Text}", new Font("Courier New", 10, FontStyle.Bold), Brushes.Black, 10, y);
+            g.DrawString(new string('-', 32), font, Brushes.Black, 10, y); y += 15;
+            g.DrawString($"SUBTOTAL:      {txtmontototal.Text}", font, Brushes.Black, 10, y); y += 15;
+            g.DrawString($"TOTAL ITBIS:   $0.00", font, Brushes.Black, 10, y); y += 15;
+            g.DrawString($"TOTAL:         {txtmontototal.Text}", font, Brushes.Black, 10, y); y += 15;
+            g.DrawString($"PAGADO:        {txtmontopago.Text}", font, Brushes.Black, 10, y); y += 15;
+            g.DrawString($"CAMBIO:        {txtmontocambio.Text}", font, Brushes.Black, 10, y); y += 20;
+
+            g.DrawString("Pago en: Efectivo", font, Brushes.Black, 10, y); y += 20;
+
+            g.DrawString(new string('-', 32), font, Brushes.Black, 10, y); y += 15;
+            g.DrawString("Gracias por su compra", font, Brushes.Black, 20, y); y += 20;
         }
     }
 }
